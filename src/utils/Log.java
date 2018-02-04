@@ -3,6 +3,7 @@ package utils;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,22 +22,34 @@ public class Log {
 		resetData();
 	}
 
+	public Log (String name) {
+		className = name;
+		resetData();
+	}
+
 	private void resetData() {
 		logInfo = new ArrayList<String>();
 		saveLevel = 3; //3:all, 2:-err, 1:-dbug, 0:-sc
 		skippedLines = 0;
 	}
-	
+
 	public void println(String msg) {
 		System.out.println(msg);
 		saveLogInfo(msg, 0);
 	}
-	
+
 	public void print(String msg) {
 		System.out.print(msg);
 		saveLogInfo(msg, 0);
 	}
 
+	public static void printCollection(Collection<?> c) {
+		for (Object o : c) {
+			System.out.println(o);
+		}
+		System.out.println("Collection size is " + c.size());
+	}
+	
 	public String readStr(Scanner sc) {
 		String msg = sc.nextLine();
 		saveLogInfo(msg, 1);
@@ -99,11 +112,11 @@ public class Log {
 
 		try {
 			PrintWriter file = new PrintWriter("./log.txt");
-			
+
 			for (String str : Caster.safeIterable(logInfo)) {
 				file.println(str);
 			}
-			
+
 			file.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("Log file not found. Class: " + className);

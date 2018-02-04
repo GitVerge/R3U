@@ -1,6 +1,7 @@
 package utils;
 
 import java.util.BitSet;
+import java.util.Collection;
 import java.util.Collections;
 
 /**
@@ -51,8 +52,16 @@ public class Caster {
 		return Caster.byteArrayToBitSet(bArray);
 	}
 
-	// Others
+	// Collections
 	public static <T> Iterable<T> safeIterable(Iterable<T> it) {
 		return it == null ? Collections.<T>emptyList() : it;
+	}
+	
+	public static <T> boolean isValidCollection(Collection<T> c) {
+		return c != null && !c.isEmpty();
+	}
+	
+	public static <T> boolean isValidCollection(Collection<T> c, int index) {
+		return isValidCollection(c) && c.size() > index;
 	}
 }
